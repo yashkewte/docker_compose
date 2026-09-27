@@ -1,0 +1,24 @@
+services:
+
+  flask-app:
+    build:
+      context: ./app
+    container_name: flask-app
+    ports:
+      - "5000:5000"
+    environment:
+      REDIS_HOST: redis
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
